@@ -2,6 +2,9 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
+#include <cstdarg>
+#include <cstdlib>
+#include <ctime>
 #include "atom.h"
 
 struct box
@@ -18,4 +21,5 @@ struct box
   ~box();
 
   void fillBox(float radius);
+  void stampholes(const char* radii,...);
 };

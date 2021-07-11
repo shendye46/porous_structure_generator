@@ -36,3 +36,29 @@ void box::fillBox(float radius) {
     temp_z = temp_z + 2 * radius;
   }
 }
+
+void box::stampholes(const char *radii, ...) {
+  // first randomly spread the spheres making sure no two spheres touch each
+  // other check for belongs to sphere for each sphere
+  std::vector<Point3D> spheres;
+  va_list args;
+  va_start(args, radii);
+  while (*radii != '\0') {
+    if (*radii == 'd') {
+      int i = va_arg(args, int);
+      Point3D p = {};
+
+    } else if (*radii == 'f') {
+      double d = va_arg(args, double);
+      Point3D p = {};
+    }
+    ++radii;
+  }
+  va_end(args);
+}
+
+static float getRandomFloat(float LOW, float HIGH) {
+  srand48(static_cast<unsigned>(time(0)));
+  return LOW + static_cast<float>(rand()) /
+                   (static_cast<float>(RAND_MAX / (HIGH - LOW)));
+}
