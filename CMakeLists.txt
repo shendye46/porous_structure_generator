@@ -10,6 +10,7 @@ set(SOURCES src/box.cpp src/atom.cpp src/main.cpp)
 
 # Add an executable with the above sources
 add_executable(porous_structure_generator ${SOURCES})
+set(CMAKE_BUILD_TYPE Debug)
 
 # Set the directories that should be included in the build command for this target
 # when running g++ these will be included as -I/directory/path/
