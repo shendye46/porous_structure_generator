@@ -37,28 +37,57 @@ void box::fillBox(float radius) {
   }
 }
 
-void box::stampholes(const char *radii, ...) {
+std::vector<Point3D> box::makePores(int radii, ...) {
   // first randomly spread the spheres making sure no two spheres touch each
   // other check for belongs to sphere for each sphere
   std::vector<Point3D> spheres;
+  std::vector<double> radii_input;
   va_list args;
   va_start(args, radii);
-  while (*radii != '\0') {
-    if (*radii == 'd') {
-      int i = va_arg(args, int);
-      Point3D p = {};
-
-    } else if (*radii == 'f') {
-      double d = va_arg(args, double);
-      Point3D p = {};
-    }
-    ++radii;
+  Point3D p;
+  for (size_t i = 0; i < radii; i++) {
+    double d = va_arg(args, double);
+    radii_input.push_back(d);
   }
+
   va_end(args);
+  srand48(static_cast<unsigned>(time(0)));
+
+  for (size_t i = 0; i < radii_input.size(); i++) {
+    bool overlapping = true;
+    if (spheres.empty()) {
+      p = {box::getRandomFloat(p_min_x, p_max_x),
+           box::getRandomFloat(p_min_y, p_max_y),
+           box::getRandomFloat(p_min_z, p_max_z),
+           static_cast<float>(radii_input.at(i))};
+      overlapping = false;
+    }
+
+    while (overlapping) {
+      p = {box::getRandomFloat(p_min_x, p_max_x),
+           box::getRandomFloat(p_min_y, p_max_y),
+           box::getRandomFloat(p_min_z, p_max_z),
+           static_cast<float>(radii_input.at(i))};
+      for (size_t i = 0; i < spheres.size(); i++) {
+        if (Point3D::eucledian_dist(p, spheres.at(i)) >
+            (p.radius, spheres.at(i).radius)) {
+          overlapping = false;
+          break;
+        }
+      }
+    }
+    spheres.push_back(p);
+  }
+  return spheres;
 }
 
-static float getRandomFloat(float LOW, float HIGH) {
-  srand48(static_cast<unsigned>(time(0)));
-  return LOW + static_cast<float>(rand()) /
-                   (static_cast<float>(RAND_MAX / (HIGH - LOW)));
+void box::deleteAtoms() {
+  std::vector<size_t> indices_to_be_erased;
+  for (size_t i = 0; i < p_atoms.size(); i++) {
+    for (size_t j = 0; j < pores.size(); j++) {
+      if (p_atoms.at(i).belongsToSphere(pores.at(j))) {
+        p_atoms.erase(p_atoms.begin() + i); // this is dangerous
+      }
+    }
+  }
 }
