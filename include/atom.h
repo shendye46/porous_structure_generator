@@ -27,7 +27,7 @@ public:
   // bool belongsToBox(const atom& atom, const box& box);
   bool belongsToSphere(const Point3D& sphere);
   friend std::ostream &operator<<(std::ostream &os, const atom &atom) {
-    os << atom.p_point3D.x << " " << atom.p_point3D.y << " " << atom.p_point3D.z
+    os <<atom.p_id<<" "<<atom.p_mol_id<<" "<<atom.p_point3D.x << " " << atom.p_point3D.y << " " << atom.p_point3D.z
        << "\n";
     return os;
   };
