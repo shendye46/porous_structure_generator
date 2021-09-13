@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Load plotly.js into the DOM -->
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
+    <script src="https://d3js.org/d3-queue.v3.min.js"></script>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="barchart" id='myDiv'>
+            <!-- Plotly chart will be drawn inside this DIV -->
+        </div>
+        <div class="linechart" id='comparision'></div>
+    </div>
+    
+    <div id='scatterplot'></div>
+
+    <script>
+        d3.queue()
+            .defer(d3.csv, "static/atoms.txt")
+            .defer(d3.csv, "static/pores.txt")
+            .await(function (error, file1, file2) {
+                if (error) {
+                    console.error('Oh dear, something went wrong: ' + error);
+                }
+                else {
+                    console.log(file1);
+                    function unpack(rows, key) {
+                        return rows.map(function (row) { return row[key]; });
+                    }
+                    var trace1 = {
+                        x: unpack(file1, 'x'), y: unpack(file1, 'y'), z: unpack(file1, 'z'),
+                        mode: 'markers',
+                        marker: {
+                            size: 5,
+                            color: 'red',
+                            line: {
+                                color: 'rgba(255, 0, 0, 0.14)',
+                                width: 0.5,
+
+                            },
+                            opacity: 0.5
+                        },
+                        type: 'scatter3d',
+                        name: 'atoms'
+                    };
+                    var trace2 = {
+                        x: unpack(file2, 'x'), y: unpack(file2, 'y'), z: unpack(file2, 'z'),
+                        mode: 'markers',
+                        marker: {
+                            size: 2,
+                            color: 'blue',
+                            line: {
+                                color: 'rgba(0, 0, 255, 0.14)',
+                                width: 0.5,
+
+                            },
+                            opacity: 0.5
+                        },
+                        type: 'scatter3d',
+                        name: 'pores'
+                    };
+                    var data = [trace1,trace2];
+                    var layout = {
+                        margin: {
+                            l: 0,
+                            r: 0,
+                            b: 0,
+                            t: 0
+                        },
+                        title: {
+                            text: 'Atomic model',
+                            font: {
+                                family: 'Courier New, monospace',
+                                size: 24
+                            },
+                            yref: 'paper',
+                            y: 1,
+                            x: 0.1
+                        }
+                    };
+                    Plotly.newPlot('scatterplot', data, layout);
+                }
+            });
+    </script>
+</body>
+
+</html>
