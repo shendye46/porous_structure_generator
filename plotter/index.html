@@ -22,8 +22,8 @@
     <script>
         d3.queue()
             .defer(d3.csv, "static/atoms.txt")
-            .defer(d3.csv, "static/pores.txt")
-            .await(function (error, file1, file2) {
+            // .defer(d3.csv, "static/pores.txt")
+            .await(function (error, file1) {
                 if (error) {
                     console.error('Oh dear, something went wrong: ' + error);
                 }
@@ -48,23 +48,23 @@
                         type: 'scatter3d',
                         name: 'atoms'
                     };
-                    var trace2 = {
-                        x: unpack(file2, 'x'), y: unpack(file2, 'y'), z: unpack(file2, 'z'),
-                        mode: 'markers',
-                        marker: {
-                            size: 2,
-                            color: 'blue',
-                            line: {
-                                color: 'rgba(0, 0, 255, 0.14)',
-                                width: 0.5,
+                    // var trace2 = {
+                    //     x: unpack(file2, 'x'), y: unpack(file2, 'y'), z: unpack(file2, 'z'),
+                    //     mode: 'markers',
+                    //     marker: {
+                    //         size: 2,
+                    //         color: 'blue',
+                    //         line: {
+                    //             color: 'rgba(0, 0, 255, 0.14)',
+                    //             width: 0.5,
 
-                            },
-                            opacity: 0.5
-                        },
-                        type: 'scatter3d',
-                        name: 'pores'
-                    };
-                    var data = [trace1,trace2];
+                    //         },
+                    //         opacity: 0.5
+                    //     },
+                    //     type: 'scatter3d',
+                    //     name: 'pores'
+                    // };
+                    var data = [trace1,/* trace2 */];
                     var layout = {
                         margin: {
                             l: 0,
