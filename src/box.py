@@ -32,8 +32,8 @@ class Box:
                    self.atomlist.append(atom(x,y,z,radius=radius,id=local_id))
     
 
-    def fillPores(self,number_of_distinct_radii=6,sigma=3,mean=15):
-        poredict = self.createPoresMapping(number_of_distinct_radii=6,sigma=3,mean=15)
+    def fillPores(self,number_of_distinct_radii=3,sigma=3,mean=15):
+        poredict = self.createPoresMapping(number_of_distinct_radii=3,sigma=3,mean=15)
         id=0
         prev_radii = None
         max_time_allowed = 100
@@ -61,10 +61,16 @@ class Box:
     
     def removeAtomsFromPores(self):
         copy_atoms = copy.deepcopy(self.atomlist)
+        atoms_to_be_removed = []
         for i in range(len(self.porelist)):
             for j in range(len(self.atomlist)):
                 if self.porelist[i].contains(self.atomlist[j]):
-                    copy_atoms.remove(j)
+                    if self.atomlist[j] not in atoms_to_be_removed:
+                        atoms_to_be_removed.append(self.atomlist[j])
+        
+        for atom in atoms_to_be_removed:
+            copy_atoms.remove(atom)
+
         return copy_atoms
         
         

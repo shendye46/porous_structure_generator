@@ -11,7 +11,7 @@ class atom(Point3D):
         self.radius = radius
         self.id = id
     def __repr__(self) -> str:
-        return "{},{},{},{},{}".format(self.id,self.x,self.y,self.z,self.radius)
+        return "{} {} {} {}".format(1,self.x,self.y,self.z)
     
 from .utils import euclideanDistance
 class Pores:
@@ -23,5 +23,6 @@ class Pores:
     
     def __repr__(self) -> str:
         return self.p_atom.__repr__()
+        
     def contains(self,atom:atom)->bool:
         return euclideanDistance(self.p_atom,atom)<=((self.diameter/2)+atom.radius)
