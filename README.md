@@ -30,6 +30,8 @@ Here's how:
 * Pores are randomlz distributed in the structure
 * Structure needs to be visualized in ovito
 
+![structure](assets/structure_plot_3d.png)
+
 <!-- GETTING STARTED -->
 ## Getting Started
 To run the python script:
